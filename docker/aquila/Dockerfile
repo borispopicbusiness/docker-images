@@ -1,10 +1,7 @@
-# Use the latest Ubuntu image as the base
 FROM ubuntu:latest
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Update package lists and install required OS packages
 RUN apt-get update && apt-get install -y \
     curl \
     gnupg \
@@ -47,7 +44,6 @@ RUN apt-get update && apt-get install -y \
     libvips-dev \
     && vips --version  # Verify installation
 
-# Clone the AquilaCMS repository from GitHub
 RUN git clone https://github.com/AquilaCMS/AquilaCMS.git .
 
 # Install AquilaCMS dependencies using Yarn
