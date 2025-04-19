@@ -22,31 +22,31 @@ RUN apt-get update && apt-get install -y \
     libjpeg-turbo8-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 18.x (specifically 18.16.0 or higher as required)
+# Install Node.js 18.+
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
-    && node -v  # Verify Node.js version
+    && node -v
 
 # Install Yarn globally (version 3.4.1+ as required)
 RUN npm install -g yarn@latest \
-    && yarn --version  # Verify Yarn version
+    && yarn --version
 
 # Install wkhtmltopdf (for PDF generation)
 RUN apt-get update && apt-get install -y wget \
     && wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
     && apt-get install -y ./wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
     && rm wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
-    && wkhtmltopdf --version  # Verify installation
+    && wkhtmltopdf --version
 
 # Install libvips (for image processing)
 RUN apt-get update && apt-get install -y \
     libvips42 \
     libvips-dev \
-    && vips --version  # Verify installation
+    && vips --version
 
 RUN git clone https://github.com/AquilaCMS/AquilaCMS.git .
 
-# Install AquilaCMS dependencies using Yarn
+# Install AquilaCMS
 RUN yarn install
 
 #RUN cd apps/themes/default_theme_2 && yarn install && cd /app
@@ -65,5 +65,4 @@ ENV NODE_ENV=production \
     MONGODB_URI=mongodb://mongo:27017/aquilacms \
     ADMIN_PREFIX=admin
 
-# Command to start AquilaCMS
 CMD ["npm", "start"]
